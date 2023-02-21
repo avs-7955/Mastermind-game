@@ -16,9 +16,25 @@ def generate_code() -> list:
 
 def guess_code() -> list:
     '''Fetches the guessed code from the user and returns the code as a list.'''
-    print('Guess the colors:')
-    # Ensuring that input is in capital letters and splitting into list.
-    guessed_code = input().upper().split()
+    while True:
+        print('Guess the colors:')
+        # Ensuring that input is in capital letters and splitting into list.
+        guessed_code = input().upper().split()
+
+        if(len(guessed_code) != CODE_LENGTH):
+            print(f"You need to guess {CODE_LENGTH} colors.")
+            # This continue ensures that the user is prompted to guess again.
+            continue
+
+        # To ensure all the colors are in the allowed colors.
+        for color in guessed_code:
+            if color not in COLORS:
+                print(
+                    f"This {color} is not available. Please select the colors again.")
+                break
+        else:
+            # Executes when the for loop runs completely and break statement inside if wasn't encountered.
+            break
 
     return guessed_code
 
