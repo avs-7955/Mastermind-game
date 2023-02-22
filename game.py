@@ -41,13 +41,28 @@ def guess_code() -> list:
 
 def compare_code(secret_code, guessed_code) -> list:
     '''Compares the code and returns the number of correct and wrong positions as a list.'''
+    counts = {}
     correct = 0
     wrong = 0
-    for i in range(CODE_LENGTH):
-        if secret_code[i] == guessed_code[i]:
+
+    # Counting all the colors present in the secret code
+    for color in secret_code:
+        if color not in counts.keys():
+            counts[color] = 0
+        counts[color] += 1
+
+    # Finding the correct positions
+    for guess_color, secret_color in zip(guessed_code, secret_code):
+        if guess_color == secret_color:
             correct += 1
-        else:
+            counts[guess_color] -= 1
+
+    # Finding the incorrect positions
+    for guess_color, secret_color in zip(guessed_code, secret_code):
+        if guess_color in counts.keys() and counts[guess_color] > 0:
             wrong += 1
+            counts[guess_color] -= 1
+
     return [correct, wrong]
 
 
@@ -60,8 +75,8 @@ secret_code = generate_code()
 for x in range(TRIES):
     guessed_code = guess_code()
     res = compare_code(secret_code, guessed_code)
-    # If there are no wrong positions then game won.
-    if res[1] == 0:
+    # If the number of correct positions is equal to the code length then game won.
+    if res[0] == CODE_LENGTH:
         print(f"Congrats! You cracked the code in {x+1} tries!")
         break
     else:
