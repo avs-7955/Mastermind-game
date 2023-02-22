@@ -66,24 +66,29 @@ def compare_code(secret_code, guessed_code) -> list:
     return [correct, wrong]
 
 
-print("Welcome to MasterMind! The available colors are ", *COLORS)
-print(f"You have {TRIES} tries to guess the correct code.")
-# Generating the secret code
-secret_code = generate_code()
+def game():
+    print("Welcome to MasterMind! The available colors are ", *COLORS)
+    print(f"You have {TRIES} tries to guess the correct code.")
+    # Generating the secret code
+    secret_code = generate_code()
 
-# Allowing the number of tries to the user.
-for x in range(TRIES):
-    guessed_code = guess_code()
-    res = compare_code(secret_code, guessed_code)
-    # If the number of correct positions is equal to the code length then game won.
-    if res[0] == CODE_LENGTH:
-        print(f"Congrats! You cracked the code in {x+1} tries!")
-        break
+    # Allowing the number of tries to the user.
+    for x in range(TRIES):
+        guessed_code = guess_code()
+        res = compare_code(secret_code, guessed_code)
+        # If the number of correct positions is equal to the code length then game won.
+        if res[0] == CODE_LENGTH:
+            print(f"Congrats! You cracked the code in {x+1} tries!")
+            break
+        else:
+            # Else printing the number of correct and wrong positions.
+            print(f"Correct positions = {res[0]} | Wrong positions = {res[1]}")
+
+    # If user runs out of the number of tries, then the game is terminated.
     else:
-        # Else printing the number of correct and wrong positions.
-        print(f"Correct positions = {res[0]} | Wrong positions = {res[1]}")
+        print(
+            f"You lost! You couldn't guess the secret code in {TRIES} tries.")
+        print("The code was:", *secret_code)
 
-# If user runs out of the number of tries, then the game is terminated.
-else:
-    print(f"You lost! You couldn't guess the secret code in {TRIES} tries.")
-    print("The code was:", *secret_code)
+
+game()
