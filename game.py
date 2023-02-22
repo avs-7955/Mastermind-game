@@ -2,7 +2,7 @@ import random
 
 COLORS = ["P", "W", "Y", "G", "B", "R"]
 CODE_LENGTH = 4
-TRIES = 5
+TRIES = 10
 
 
 def generate_code() -> list:
@@ -51,10 +51,11 @@ def compare_code(secret_code, guessed_code) -> list:
     return [correct, wrong]
 
 
-print("Welcome to MasterMind! The available colors are R, B, G, W, Y, P.")
-game_on = True
+print("Welcome to MasterMind! The available colors are ", *COLORS)
+print(f"You have {TRIES} tries to guess the correct code.")
 # Generating the secret code
 secret_code = generate_code()
+
 # Allowing the number of tries to the user.
 for x in range(TRIES):
     guessed_code = guess_code()
@@ -62,12 +63,12 @@ for x in range(TRIES):
     # If there are no wrong positions then game won.
     if res[1] == 0:
         print(f"Congrats! You cracked the code in {x+1} tries!")
-        game_on = False
         break
     else:
         # Else printing the number of correct and wrong positions.
         print(f"Correct positions = {res[0]} | Wrong positions = {res[1]}")
 
-# If user runs out of the number of tries, then the game is lost.
-if game_on:
+# If user runs out of the number of tries, then the game is terminated.
+else:
     print(f"You lost! You couldn't guess the secret code in {TRIES} tries.")
+    print("The code was:", *secret_code)
