@@ -91,4 +91,8 @@ def game():
         print("The code was:", *secret_code)
 
 
-game()
+while(True):
+    game()
+    ans = input("\nDo you want to play again? Y / N \n").upper()
+    if ans[0] == 'N':
+        break
